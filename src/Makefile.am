@@ -33,6 +33,8 @@ xings_night_light_daemon_LDADD =			\
 
 xings_night_light_preferences_SOURCES =			\
 	xings-night-light-preferences.c			\
+	xnl-preferences-panel.c				\
+	xnl-preferences-panel.h				\
 	xnl-common.h
 
 xings_night_light_preferences_CFLAGS =			\
