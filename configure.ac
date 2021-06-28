@@ -1,5 +1,5 @@
 AC_PREREQ(2.60)
-AC_INIT([xings-night-light-daemon], [0.1.0], [mati86dl@gmail.com])
+AC_INIT([xings-night-light], [0.2.0], [mati86dl@gmail.com])
 AM_INIT_AUTOMAKE([1.9.6 -Wall -Werror dist-bzip2])
 
 AC_PROG_CC
@@ -19,7 +19,7 @@ PKG_CHECK_MODULES(GTK, [gtk+-3.0])
 AM_GLIB_GNU_GETTEXT
 IT_PROG_INTLTOOL([0.50.1])
 
-GETTEXT_PACKAGE=xings-night-light-daemon
+GETTEXT_PACKAGE=xings-night-light
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 
