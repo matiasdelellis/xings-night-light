@@ -6,3 +6,4 @@ Exec=xings-night-light-daemon
 Icon=xings-night-light
 Terminal=false
 Hidden=false
+NotShowIn=GNOME;KDE;Unity;

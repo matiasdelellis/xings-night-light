@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-27 12:41-0300\n"
+"POT-Creation-Date: 2021-06-28 10:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,37 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../src/xings-night-light-preferences.c:84
+msgid "Night light preferences"
+msgstr ""
+
 #: ../data/xings-night-light-daemon.desktop.in.h:1
 msgid "Xings Night Light Daemon"
 msgstr ""
 
 #: ../data/xings-night-light-daemon.desktop.in.h:2
 msgid "A daemon to automatically adjust the screen temperature at night"
+msgstr ""
+
+#: ../data/xings-night-light-preferences.desktop.in.h:1
+#: ../data/xnl-preferences.ui.h:1
+msgid "Night light"
+msgstr ""
+
+#: ../data/xings-night-light-preferences.desktop.in.h:2
+msgid "Activate and adjust night light preferences"
+msgstr ""
+
+#: ../data/xnl-preferences.ui.h:2
+msgid ""
+"Night light makes the screen color warmer. This can help to prevent eye "
+"strain and sleeplessness."
+msgstr ""
+
+#: ../data/xnl-preferences.ui.h:3
+msgid "Enabled"
+msgstr ""
+
+#: ../data/xnl-preferences.ui.h:4
+msgid "Strength"
 msgstr ""

@@ -1,8 +1,11 @@
 [Desktop Entry]
 Type=Application
-_Name=Night Light Preferences
-_Comment=A daemon to automatically adjust the screen temperature at night
+_Name=Night light
+_Comment=Activate and adjust night light preferences
+Categories=Settings;HardwareSettings;GTK;X-XFCE;X-XFCE-SettingsDialog;X-XFCE-HardwareSettings;
 Exec=xings-night-light-preferences
 Icon=xings-night-light
 Terminal=false
 Hidden=false
+NotShowIn=GNOME;KDE;Unity;
+X-XfcePluggable=false

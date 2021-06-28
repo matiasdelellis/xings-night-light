@@ -1,2 +1,5 @@
 src/xings-night-light-daemon.c
+src/xings-night-light-preferences.c
 data/xings-night-light-daemon.desktop.in
+data/xings-night-light-preferences.desktop.in
+[type: gettext/glade]data/xnl-preferences.ui

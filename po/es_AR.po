@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xings Night Color Daemon\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-27 12:41-0300\n"
-"PO-Revision-Date: 2021-06-27 12:32-0300\n"
+"POT-Creation-Date: 2021-06-28 10:48-0300\n"
+"PO-Revision-Date: 2021-06-28 10:49-0300\n"
 "Last-Translator: \n"
 "Language-Team: Matias De lellis\n"
 "Language: es_AR\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.0\n"
+
+#: ../src/xings-night-light-preferences.c:84
+msgid "Night light preferences"
+msgstr "Preferencias de la luz nocturna"
 
 #: ../data/xings-night-light-daemon.desktop.in.h:1
 msgid "Xings Night Light Daemon"
@@ -26,3 +30,28 @@ msgid "A daemon to automatically adjust the screen temperature at night"
 msgstr ""
 "Un demonio para ajustar automáticamente la temperatura de la pantalla por la "
 "noche"
+
+#: ../data/xings-night-light-preferences.desktop.in.h:1
+#: ../data/xnl-preferences.ui.h:1
+msgid "Night light"
+msgstr "Luz nocturna"
+
+#: ../data/xings-night-light-preferences.desktop.in.h:2
+msgid "Activate and adjust night light preferences"
+msgstr "Active y ajuste las preferencias de la luz nocturna"
+
+#: ../data/xnl-preferences.ui.h:2
+msgid ""
+"Night light makes the screen color warmer. This can help to prevent eye "
+"strain and sleeplessness."
+msgstr ""
+"La luz nocturna hace que el color de la pantalla sea más cálido. Esto puede "
+"ayudar a prevenir la fatiga visual y el insomnio."
+
+#: ../data/xnl-preferences.ui.h:3
+msgid "Enabled"
+msgstr "Activado"
+
+#: ../data/xnl-preferences.ui.h:4
+msgid "Strength"
+msgstr "Intensidad"
