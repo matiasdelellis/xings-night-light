@@ -19,6 +19,7 @@
  *
  */
 
+#include <glib.h>
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
@@ -50,6 +51,9 @@
 // Green color
 #define GAMMA_K0GB          1.49221604915144
 #define GAMMA_K1GB          -0.07513509588921
+
+#define TEMPERATURE_NORM    6500
+#define TEMPERATURE_ZERO    700
 
 static double
 DoubleTrim(double x, double a, double b)
@@ -91,7 +95,7 @@ get_sct_for_screen(Display *dpy, int screen, int fdebug)
         gammar /= gammam;
         gammag /= gammam;
         gammab /= gammam;
-        if (fdebug > 0) fprintf(stderr, "DEBUG: Gamma: %f, %f, %f\n", gammar, gammag, gammab);
+        g_debug ("Gamma: %f, %f, %f\n", gammar, gammag, gammab);
         gammad = gammab - gammar;
         if (gammad < 0.0)
         {
@@ -146,7 +150,8 @@ sct_for_screen(Display *dpy, int screen, int temp, int fdebug)
         gammag = DoubleTrim(GAMMA_K0GB + GAMMA_K1GB * g, 0.0, 1.0);
         gammab = 1.0;
     }
-    if (fdebug > 0) fprintf(stderr, "DEBUG: Gamma: %f, %f, %f\n", gammar, gammag, gammab);
+
+    g_debug ("Gamma: %f, %f, %f\n", gammar, gammag, gammab);
 
     n = res->ncrtc;
     for (c = 0; c < n; c++)
@@ -175,7 +180,7 @@ sct_for_screen(Display *dpy, int screen, int temp, int fdebug)
 }
 
 int
-x11_get_temperature()
+x11_get_display_temperature()
 {
     int i, screen, screens, temp;
     int fdebug = 0, fdelta = 0, fhelp = 0;
@@ -184,8 +189,7 @@ x11_get_temperature()
 
     if (!dpy)
     {
-        perror("XOpenDisplay(NULL) failed");
-        fprintf(stderr, "Make sure DISPLAY is set correctly.\n");
+        g_warning ("XOpenDisplay(NULL) failed. Make sure DISPLAY is set correctly.");
         return -1;
     }
 
@@ -202,7 +206,7 @@ x11_get_temperature()
 }
 
 int
-x11_set_temperature(int temp)
+x11_set_display_temperature(int temp)
 {
     int i, screen, screens;
     int fdebug = 0;
@@ -211,8 +215,7 @@ x11_set_temperature(int temp)
 
     if (!dpy)
     {
-        perror("XOpenDisplay(NULL) failed");
-        fprintf(stderr, "Make sure DISPLAY is set correctly.\n");
+        g_warning ("XOpenDisplay(NULL) failed. Make sure DISPLAY is set correctly.");
         return EXIT_FAILURE;
     }
     screens = XScreenCount(dpy);
@@ -222,7 +225,7 @@ x11_set_temperature(int temp)
     }
     else if (temp < TEMPERATURE_ZERO)
     {
-        fprintf(stderr, "WARNING! Temperatures below %d cannot be displayed.\n", TEMPERATURE_ZERO);
+        g_warning ("Temperatures below %d cannot be displayed.", TEMPERATURE_ZERO);
         temp = TEMPERATURE_ZERO;
     }
 
@@ -235,3 +238,10 @@ x11_set_temperature(int temp)
 
     return EXIT_SUCCESS;
 }
+
+int
+x11_reset_display_temperature()
+{
+	return x11_set_display_temperature (TEMPERATURE_NORM);
+}
+

@@ -11,6 +11,11 @@ AM_CPPFLAGS = \
 
 xings_night_light_daemon_SOURCES =			\
 	xings-night-light-daemon.c			\
+	xnl-daemon.c					\
+	xnl-daemon.h					\
+	xnl-common.h					\
+	xnl-debug.c					\
+	xnl-debug.h					\
 	xsct.c						\
 	xsct.h
 
@@ -18,7 +23,7 @@ xings_night_light_daemon_CFLAGS =			\
 	$(X11_CFLAGS)					\
 	$(XRAND_CFLAGS)					\
 	$(GIO_CFLAGS)					\
-	$(GLIB_CFLAGS) -lm
+	$(GLIB_CFLAGS)
 
 xings_night_light_daemon_LDADD =			\
 	$(X11_LIBS)					\
@@ -27,7 +32,8 @@ xings_night_light_daemon_LDADD =			\
 	$(GLIB_LIBS) -lm
 
 xings_night_light_preferences_SOURCES =			\
-	xings-night-light-preferences.c
+	xings-night-light-preferences.c			\
+	xnl-common.h
 
 xings_night_light_preferences_CFLAGS =			\
 	$(GLIB_CFLAGS)					\

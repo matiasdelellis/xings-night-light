@@ -24,13 +24,13 @@
 
 #include <stdio.h>
 
-#define TEMPERATURE_NORM    6500
-#define TEMPERATURE_ZERO    700
+int
+x11_get_display_temperature();
 
 int
-x11_get_temperature();
+x11_set_display_temperature(int temp);
 
 int
-x11_set_temperature(int temp);
+x11_reset_display_temperature();
 
 #endif /* __XSCT_H */

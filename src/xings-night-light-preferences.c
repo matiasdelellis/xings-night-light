@@ -21,15 +21,11 @@
 #endif
 
 #include <glib.h>
-#include <glib-unix.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
-#define GSETTINGS_SCHEMA "org.xings.night-light"
-
-#define GSETTINGS_KEY_NIGHT_LIGHT_ENABLED "night-light-enabled"
-#define GSETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE "night-light-temperature"
+#include "xnl-common.h"
 
 static void
 xings_night_light_preferences_settings_changed_cb (GSettings   *settings,
@@ -40,13 +36,13 @@ xings_night_light_preferences_settings_changed_cb (GSettings   *settings,
 	gboolean enabled;
 	guint night_temp;
 
-	if (g_strcmp0 (key, GSETTINGS_KEY_NIGHT_LIGHT_ENABLED) == 0) {
-			enabled = g_settings_get_boolean (settings, GSETTINGS_KEY_NIGHT_LIGHT_ENABLED);
+	if (g_strcmp0 (key, XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED) == 0) {
+		enabled = g_settings_get_boolean (settings, XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED);
 		widget = GTK_WIDGET (gtk_builder_get_object (builder, "switch_enable"));
 		gtk_switch_set_active (GTK_SWITCH (widget), enabled);
 	}
-	else if (g_strcmp0 (key, GSETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE) == 0) {
-		night_temp = g_settings_get_uint (settings, GSETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE);
+	else if (g_strcmp0 (key, XNL_SETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE) == 0) {
+		night_temp = g_settings_get_uint (settings, XNL_SETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE);
 		widget = GTK_WIDGET (gtk_builder_get_object (builder, "scale_strength"));
 		gtk_range_set_value (GTK_RANGE (widget), night_temp);
 	}
@@ -58,7 +54,7 @@ xings_night_light_enabled_activated_cb (GtkSwitch  *widget,
                                         GSettings  *settings)
 {
 	g_settings_set_boolean (settings,
-	                        GSETTINGS_KEY_NIGHT_LIGHT_ENABLED,
+	                        XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED,
 	                        gtk_switch_get_active (widget));
 }
 
@@ -67,7 +63,7 @@ xings_night_light_temperature_changed_cb (GtkRange  *range,
                                           GSettings *settings)
 {
 	g_settings_set_uint (settings,
-	                     GSETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE,
+	                     XNL_SETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE,
 	                     gtk_range_get_value(range));
 }
 
@@ -97,13 +93,13 @@ xings_night_light_application_activate (GtkApplication *application,
 	g_signal_connect (settings, "changed",
 	                  G_CALLBACK (xings_night_light_preferences_settings_changed_cb), builder);
 
-	enabled = g_settings_get_boolean (settings, GSETTINGS_KEY_NIGHT_LIGHT_ENABLED);
+	enabled = g_settings_get_boolean (settings, XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED);
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "switch_enable"));
 	gtk_switch_set_active (GTK_SWITCH (widget), enabled);
 	g_signal_connect (widget, "notify::active",
 	                  G_CALLBACK (xings_night_light_enabled_activated_cb), settings);
 
-	night_temp = g_settings_get_uint (settings, GSETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE);
+	night_temp = g_settings_get_uint (settings, XNL_SETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE);
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "scale_strength"));
 	gtk_range_set_value (GTK_RANGE (widget), night_temp);
 	g_signal_connect (widget, "value-changed",
@@ -129,12 +125,13 @@ main (int    argc,
 
 	/* Settings */
 
-	settings = g_settings_new (GSETTINGS_SCHEMA);
+	settings = g_settings_new (XNL_SETTINGS_SCHEMA);
 
 	/* GtkApplication */
 
-	app = gtk_application_new ("org.xings.night-light-preferences", G_APPLICATION_FLAGS_NONE);
-	g_signal_connect (app, "activate", G_CALLBACK (xings_night_light_application_activate), settings);
+	app = gtk_application_new ("org.xings.NightLightPreferences", G_APPLICATION_FLAGS_NONE);
+	g_signal_connect (app, "activate",
+	                  G_CALLBACK (xings_night_light_application_activate), settings);
 
 	status = g_application_run (G_APPLICATION (app), argc, argv);
 	g_object_unref (app);

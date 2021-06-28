@@ -25,65 +25,39 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 
-#include "xsct.h"
-
-#define GSETTINGS_SCHEMA "org.xings.night-light"
-
-#define GSETTINGS_KEY_NIGHT_LIGHT_ENABLED "night-light-enabled"
-#define GSETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE "night-light-temperature"
-
-static void
-xings_night_light_daemon_apply_settings (GSettings *settings)
-{
-	gboolean enabled;
-	guint night_temp;
-
-	enabled = g_settings_get_boolean (settings, GSETTINGS_KEY_NIGHT_LIGHT_ENABLED);
-	night_temp = g_settings_get_uint (settings, GSETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE);
-
-	if (enabled) {
-		x11_set_temperature (night_temp);
-	} else {
-		x11_set_temperature (TEMPERATURE_NORM);
-	}
-}
-
-static void
-xings_night_light_daemon_settings_changed_cb (GSettings   *settings,
-                                              const gchar *key,
-                                              GObject     *object)
-{
-	xings_night_light_daemon_apply_settings (settings);
-}
-
+#include "xnl-common.h"
+#include "xnl-debug.h"
+#include "xnl-daemon.h"
 
 static gboolean
 xings_night_light_daemon_sigint_cb (gpointer user_data)
 {
-	GMainLoop *loop = user_data;
 	g_debug ("Handling SIGINT");
-	g_main_loop_quit (loop);
+	g_application_quit (G_APPLICATION (user_data));
 	return FALSE;
 }
 
 static gboolean
 xings_night_light_daemon_sigterm_cb (gpointer user_data)
 {
-	GMainLoop *loop = user_data;
 	g_debug ("Handling SIGTERM");
-	g_main_loop_quit (loop);
+	g_application_quit (G_APPLICATION (user_data));
 	return FALSE;
 }
 
+static void
+xings_night_light_daemon_activate (GApplication *application)
+{
+	g_application_hold (application);
+}
 
 int
-main (int   argc,
-      char *argv[])
+main (int argc, char *argv[])
 {
-	GMainLoop *mainloop = NULL;
-	GSettings *settings = NULL;
+	GApplication *app;
 	GOptionContext *context;
-	GError *error = NULL;
+	XnlDaemon *daemon;
+	int status;
 
 	/* Translation */
 
@@ -92,44 +66,48 @@ main (int   argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	/* Parse command line */
+	/* Debug options */
 
-	context = g_option_context_new ("- Xings Night Light Daemon");
-	if (!g_option_context_parse (context, &argc, &argv, &error))
-	{
-		g_print ("option parsing failed: %s\n", error->message);
-		exit (1);
-	}
+	context = g_option_context_new (NULL);
+	g_option_context_set_summary (context, _("Xings Night Light Daemon"));
+	g_option_context_add_group (context, xnl_debug_get_option_group ());
+	g_option_context_parse (context, &argc, &argv, NULL);
+	g_option_context_free (context);
 
-	/* Settings */
+	xnl_debug_add_log_domain ("XingsNightLightDaemon");
 
-	settings = g_settings_new (GSETTINGS_SCHEMA);
-	g_signal_connect (settings, "changed",
-	                  G_CALLBACK (xings_night_light_daemon_settings_changed_cb), NULL);
+	/* Xings Night Light Daemon */
 
-	xings_night_light_daemon_apply_settings (settings);
+	daemon = xnl_daemon_new ();
+
+	/* Create app to handle the public service */
+
+	app = g_application_new ("org.xings.NightLightDaemon",
+	                         G_APPLICATION_FLAGS_NONE);
+
+	g_signal_connect (app, "activate",
+	                  G_CALLBACK (xings_night_light_daemon_activate), NULL);
 
 	/* clean exit on SIGINT or SIGTERM signals */
 
-	mainloop = g_main_loop_new (NULL, FALSE);
 	g_unix_signal_add_full (G_PRIORITY_DEFAULT,
 	                        SIGINT,
 	                        xings_night_light_daemon_sigint_cb,
-	                        mainloop,
+	                        app,
 	                        NULL);
 	g_unix_signal_add_full (G_PRIORITY_DEFAULT,
 	                        SIGTERM,
 	                        xings_night_light_daemon_sigterm_cb,
-	                        mainloop,
+	                        app,
 	                        NULL);
 
 	/* while (TRUE); */
-	g_main_loop_run (mainloop);
+	status = g_application_run (app, argc, argv);
 
 	/* Clean */
 
-	g_object_unref (settings);
-	g_main_loop_unref (mainloop);
+	g_object_unref (daemon);
+	g_object_unref (app);
 
-	return 0;
+	return status;
 }
