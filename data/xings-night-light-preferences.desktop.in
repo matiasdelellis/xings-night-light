@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+_Name=Night Light Preferences
+_Comment=A daemon to automatically adjust the screen temperature at night
+Exec=xings-night-light-preferences
+Icon=xings-night-light
+Terminal=false
+Hidden=false

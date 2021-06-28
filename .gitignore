@@ -6,6 +6,7 @@
 /po/*.gmo
 /po/.*
 /src/xings-night-light-daemon
+/src/xings-night-light-preferences
 /src/.*
 /src/*.o
 /aclocal.m4
@@ -19,6 +20,7 @@
 /ltmain.sh
 /missing
 *stamp*
+Makecache
 *Makefile.in
 *Makefile.in.in
 *Makefile

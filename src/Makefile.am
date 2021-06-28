@@ -1,8 +1,11 @@
-bin_PROGRAMS = xings-night-light-daemon
+bin_PROGRAMS = \
+	xings-night-light-daemon			\
+	xings-night-light-preferences
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\
+	-DPKGDATADIR=\"$(pkgdatadir)\"			\
 	-DG_LOG_DOMAIN=\"xings-night-light-daemon\"	\
 	-DXINGS_LOCALE_DIR=\""$(datadir)/locale"\"
 
@@ -23,5 +26,17 @@ xings_night_light_daemon_LDADD =			\
 	$(GIO_LIBS)					\
 	$(GLIB_LIBS) -lm
 
-CLEANFILES = *~
+xings_night_light_preferences_SOURCES =			\
+	xings-night-light-preferences.c
 
+xings_night_light_preferences_CFLAGS =			\
+	$(GLIB_CFLAGS)					\
+	$(GIO_CFLAGS)					\
+	$(GTK_CFLAGS)
+
+xings_night_light_preferences_LDADD =			\
+	$(GLIB_LIBS)					\
+	$(GIO_LIBS)					\
+	$(GTK_LIBS)
+
+CLEANFILES = *~
