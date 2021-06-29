@@ -35,7 +35,9 @@ xings_night_light_preferences_SOURCES =			\
 	xings-night-light-preferences.c			\
 	xnl-preferences-panel.c				\
 	xnl-preferences-panel.h				\
-	xnl-common.h
+	xnl-common.h					\
+	xnl-debug.c					\
+	xnl-debug.h
 
 xings_night_light_preferences_CFLAGS =			\
 	$(GLIB_CFLAGS)					\

@@ -30,12 +30,29 @@ struct _XnlPreferencesPanel
 
 	GtkBuilder			*builder;
 	GSettings			*settings;
+
+	guint				 dbus_watch_id;
+	gboolean			 daemon_running;
 };
 
 G_DEFINE_TYPE (XnlPreferencesPanel, xnl_preferences_panel, GTK_TYPE_BOX)
 
-
 static void
+xnl_preferences_panel_update_daemon_state (XnlPreferencesPanel *panel)
+{
+	GtkWidget *widget;
+
+	widget = GTK_WIDGET (gtk_builder_get_object (panel->builder, "switch_enable"));
+	gtk_widget_set_sensitive ((widget), panel->daemon_running);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (panel->builder, "scale_strength"));
+	gtk_widget_set_sensitive ((widget), panel->daemon_running);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (panel->builder, "infobar_no_daemon"));
+	gtk_widget_set_visible ((widget), !panel->daemon_running);
+}
+
+ static void
 xnl_preferences_panel_settings_changed_cb (GSettings           *settings,
                                            const gchar         *key,
                                            XnlPreferencesPanel *panel)
@@ -75,6 +92,33 @@ xnl_preferences_panel_temperature_changed_cb (GtkRange            *range,
 	                     gtk_range_get_value(range));
 }
 
+static void
+xnl_dbus_daemon_appeared_cb (GDBusConnection *connection,
+                             const gchar     *name,
+                             const gchar     *name_owner,
+                             gpointer         user_data)
+{
+	XnlPreferencesPanel *panel = XNL_PREFERENCES_PANEL(user_data);
+
+	g_debug ("Xings Night Light Daemon appeared on dbus");
+
+	panel->daemon_running = TRUE;
+	xnl_preferences_panel_update_daemon_state (panel);
+}
+
+static void
+xnl_dbus_daemon_vanished_cb (GDBusConnection *connection,
+                             const gchar     *name,
+                             gpointer         user_data)
+{
+	XnlPreferencesPanel *panel = XNL_PREFERENCES_PANEL(user_data);
+
+	g_debug ("Xings Night Light Daemon vanished on dbus");
+
+	panel->daemon_running = FALSE;
+	xnl_preferences_panel_update_daemon_state (panel);
+}
+
 /**
  * xnl_preferences_panel_finalize:
  * @object: The object to finalize
@@ -87,6 +131,11 @@ xnl_preferences_panel_finalize (GObject *object)
 	g_return_if_fail (XNL_IS_PREFERENCES_PANEL (object));
 
 	panel = XNL_PREFERENCES_PANEL (object);
+
+	if (panel->dbus_watch_id > 0) {
+		g_bus_unwatch_name (panel->dbus_watch_id);
+		panel->dbus_watch_id = 0;
+	}
 
 	g_object_unref (panel->settings);
 	g_object_unref (panel->builder);
@@ -104,6 +153,18 @@ xnl_preferences_panel_init (XnlPreferencesPanel *panel)
 	GtkWidget *widget;
 	guint night_temp;
 	gboolean enabled;
+
+	/* Check if daemon is running */
+
+	panel->dbus_watch_id = g_bus_watch_name (G_BUS_TYPE_SESSION,
+	                                         XNL_DAEMON_DBUS_NAME,
+	                                         G_BUS_NAME_WATCHER_FLAGS_NONE,
+	                                         xnl_dbus_daemon_appeared_cb,
+	                                         xnl_dbus_daemon_vanished_cb,
+	                                         panel,
+	                                         NULL);
+
+	/* Get builder to construct panel */
 
 	panel->builder = gtk_builder_new_from_file(PKGDATADIR "/xnl-preferences.ui");
 

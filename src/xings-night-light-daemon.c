@@ -82,7 +82,7 @@ main (int argc, char *argv[])
 
 	/* Create app to handle the public service */
 
-	app = g_application_new ("org.xings.NightLightDaemon",
+	app = g_application_new (XNL_DAEMON_DBUS_NAME,
 	                         G_APPLICATION_FLAGS_NONE);
 
 	g_signal_connect (app, "activate",

@@ -18,6 +18,9 @@
 #ifndef __XNL_COMMON_H
 #define __XNL_COMMON_H
 
+#define XNL_DAEMON_DBUS_NAME      "org.xings.NightLight"
+#define XNL_PREFERENCES_DBUS_NAME "org.xings.NightLightPreferences"
+
 #define XNL_SETTINGS_SCHEMA "org.xings.night-light"
 
 #define XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED     "night-light-enabled"

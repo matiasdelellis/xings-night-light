@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 10:57-0300\n"
+"POT-Creation-Date: 2021-06-29 16:41-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/xings-night-light-preferences.c:84
-msgid "Night light preferences"
-msgstr ""
-
+#: ../src/xings-night-light-daemon.c:72
+#: ../src/xings-night-light-preferences.c:70
 #: ../data/xings-night-light-daemon.desktop.in.h:1
 msgid "Xings Night Light Daemon"
+msgstr ""
+
+#: ../src/xings-night-light-preferences.c:42
+msgid "Night light preferences"
 msgstr ""
 
 #: ../data/xings-night-light-daemon.desktop.in.h:2
@@ -30,7 +32,7 @@ msgid "A daemon to automatically adjust the screen temperature at night"
 msgstr ""
 
 #: ../data/xings-night-light-preferences.desktop.in.h:1
-#: ../data/xnl-preferences.ui.h:1
+#: ../data/xnl-preferences.ui.h:2
 msgid "Night light"
 msgstr ""
 
@@ -38,16 +40,22 @@ msgstr ""
 msgid "Activate and adjust night light preferences"
 msgstr ""
 
-#: ../data/xnl-preferences.ui.h:2
+#: ../data/xnl-preferences.ui.h:1
+msgid ""
+"The night light service is not running. It must be run at startup by your "
+"session manager."
+msgstr ""
+
+#: ../data/xnl-preferences.ui.h:3
 msgid ""
 "Night light makes the screen color warmer. This can help to prevent eye "
 "strain and sleeplessness."
 msgstr ""
 
-#: ../data/xnl-preferences.ui.h:3
+#: ../data/xnl-preferences.ui.h:4
 msgid "Enabled"
 msgstr ""
 
-#: ../data/xnl-preferences.ui.h:4
+#: ../data/xnl-preferences.ui.h:5
 msgid "Strength"
 msgstr ""

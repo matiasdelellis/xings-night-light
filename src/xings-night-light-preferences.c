@@ -26,6 +26,8 @@
 #include <gtk/gtk.h>
 
 #include "xnl-common.h"
+#include "xnl-debug.h"
+
 #include "xnl-preferences-panel.h"
 
 
@@ -52,6 +54,7 @@ main (int    argc,
       char **argv)
 {
 	GtkApplication *app;
+	GOptionContext *context;
 	int status;
 
 	/* Translation */
@@ -61,9 +64,17 @@ main (int    argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+	/* Debug options */
+
+	context = g_option_context_new (NULL);
+	g_option_context_set_summary (context, _("Xings Night Light Daemon"));
+	g_option_context_add_group (context, xnl_debug_get_option_group ());
+	g_option_context_parse (context, &argc, &argv, NULL);
+	g_option_context_free (context);
+
 	/* GtkApplication */
 
-	app = gtk_application_new ("org.xings.NightLightPreferences", G_APPLICATION_FLAGS_NONE);
+	app = gtk_application_new (XNL_PREFERENCES_DBUS_NAME, G_APPLICATION_FLAGS_NONE);
 	g_signal_connect (app, "activate",
 	                  G_CALLBACK (xings_night_light_application_activate), NULL);
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xings Night Color Daemon\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 10:57-0300\n"
-"PO-Revision-Date: 2021-06-28 10:49-0300\n"
+"POT-Creation-Date: 2021-06-29 16:41-0300\n"
+"PO-Revision-Date: 2021-06-29 16:40-0300\n"
 "Last-Translator: \n"
 "Language-Team: Matias De lellis\n"
 "Language: es_AR\n"
@@ -17,13 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.0\n"
 
-#: ../src/xings-night-light-preferences.c:84
-msgid "Night light preferences"
-msgstr "Preferencias de la luz nocturna"
-
+#: ../src/xings-night-light-daemon.c:72
+#: ../src/xings-night-light-preferences.c:70
 #: ../data/xings-night-light-daemon.desktop.in.h:1
 msgid "Xings Night Light Daemon"
-msgstr "Daemon de luz nocturna de Xings"
+msgstr "Servicio de luz nocturna de Xings"
+
+#: ../src/xings-night-light-preferences.c:42
+msgid "Night light preferences"
+msgstr "Preferencias de la luz nocturna"
 
 #: ../data/xings-night-light-daemon.desktop.in.h:2
 msgid "A daemon to automatically adjust the screen temperature at night"
@@ -32,7 +34,7 @@ msgstr ""
 "noche"
 
 #: ../data/xings-night-light-preferences.desktop.in.h:1
-#: ../data/xnl-preferences.ui.h:1
+#: ../data/xnl-preferences.ui.h:2
 msgid "Night light"
 msgstr "Luz nocturna"
 
@@ -40,7 +42,15 @@ msgstr "Luz nocturna"
 msgid "Activate and adjust night light preferences"
 msgstr "Active y ajuste las preferencias de la luz nocturna"
 
-#: ../data/xnl-preferences.ui.h:2
+#: ../data/xnl-preferences.ui.h:1
+msgid ""
+"The night light service is not running. It must be run at startup by your "
+"session manager."
+msgstr ""
+"El servicio de luz nocturna no funciona. Su administrador de sesiones debe "
+"ejecutarlo al inicio."
+
+#: ../data/xnl-preferences.ui.h:3
 msgid ""
 "Night light makes the screen color warmer. This can help to prevent eye "
 "strain and sleeplessness."
@@ -48,10 +58,10 @@ msgstr ""
 "La luz nocturna hace que el color de la pantalla sea más cálido. Esto puede "
 "ayudar a prevenir la fatiga visual y el insomnio."
 
-#: ../data/xnl-preferences.ui.h:3
+#: ../data/xnl-preferences.ui.h:4
 msgid "Enabled"
 msgstr "Activado"
 
-#: ../data/xnl-preferences.ui.h:4
+#: ../data/xnl-preferences.ui.h:5
 msgid "Strength"
 msgstr "Intensidad"
