@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.xings.NightLight</id>
+
+  <_name>Xings Night Light Daemon</_name>
+  <_summary>A daemon to adjust the screen temperature at night</_summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <recommends>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </recommends>
+
+  <description>
+    <_p>
+      Night light makes the screen color warmer. This can help to prevent eye strain and sleeplessness.
+    </_p>
+  </description>
+
+  <launchable type="desktop-id">xings-night-light-preferences.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/matiasdelellis/xings-night-light/raw/master/data/appdata/xnl-preferences-white.png</image>
+      <_caption>Night light preferences</_caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/matiasdelellis/xings-night-light/raw/master/data/appdata/xnl-preferences-dark.png</image>
+      <_caption>Night light preferences</_caption>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/matiasdelellis/xings-night-light/</url>
+
+  <url type="bugtracker">https://github.com/matiasdelellis/xings-night-light/issues/new</url>
+
+  <update_contact>mati86dl_at_gmail.com</update_contact>
+
+</component>

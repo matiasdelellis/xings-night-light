@@ -35,6 +35,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
 	Makefile
 	data/Makefile
+	data/appdata/Makefile
 	data/icons/Makefile
 	data/icons/scalable/Makefile
 	po/Makefile.in

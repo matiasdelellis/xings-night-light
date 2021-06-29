@@ -1,4 +1,4 @@
-SUBDIRS = icons
+SUBDIRS = appdata icons
 
 @INTLTOOL_XML_NOMERGE_RULE@
 

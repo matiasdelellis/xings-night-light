@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-29 16:41-0300\n"
+"POT-Creation-Date: 2021-06-29 20:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,16 +19,39 @@ msgstr ""
 
 #: ../src/xings-night-light-daemon.c:72
 #: ../src/xings-night-light-preferences.c:70
+#: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:1
 #: ../data/xings-night-light-daemon.desktop.in.h:1
 msgid "Xings Night Light Daemon"
 msgstr ""
 
 #: ../src/xings-night-light-preferences.c:42
+#: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:4
 msgid "Night light preferences"
 msgstr ""
 
+#. TRANSLATORS: turn on all debugging
+#: ../src/xnl-debug.c:113
+msgid "Show debugging information for all files"
+msgstr ""
+
+#: ../src/xnl-debug.c:171
+msgid "Debugging Options"
+msgstr ""
+
+#: ../src/xnl-debug.c:171
+msgid "Show debugging options"
+msgstr ""
+
+#: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:2
 #: ../data/xings-night-light-daemon.desktop.in.h:2
-msgid "A daemon to automatically adjust the screen temperature at night"
+msgid "A daemon to adjust the screen temperature at night"
+msgstr ""
+
+#: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:3
+#: ../data/xnl-preferences.ui.h:3
+msgid ""
+"Night light makes the screen color warmer. This can help to prevent eye "
+"strain and sleeplessness."
 msgstr ""
 
 #: ../data/xings-night-light-preferences.desktop.in.h:1
@@ -44,12 +67,6 @@ msgstr ""
 msgid ""
 "The night light service is not running. It must be run at startup by your "
 "session manager."
-msgstr ""
-
-#: ../data/xnl-preferences.ui.h:3
-msgid ""
-"Night light makes the screen color warmer. This can help to prevent eye "
-"strain and sleeplessness."
 msgstr ""
 
 #: ../data/xnl-preferences.ui.h:4
