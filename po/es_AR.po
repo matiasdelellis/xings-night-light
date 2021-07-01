@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xings Night Color Daemon\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-29 20:42-0300\n"
-"PO-Revision-Date: 2021-06-29 20:14-0300\n"
+"POT-Creation-Date: 2021-07-01 20:29-0300\n"
+"PO-Revision-Date: 2021-07-01 20:25-0300\n"
 "Last-Translator: \n"
 "Language-Team: Matias De lellis\n"
 "Language: es_AR\n"
@@ -45,9 +45,7 @@ msgstr ""
 #: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:2
 #: ../data/xings-night-light-daemon.desktop.in.h:2
 msgid "A daemon to adjust the screen temperature at night"
-msgstr ""
-"Un demonio para ajustar automáticamente la temperatura de la pantalla por la "
-"noche"
+msgstr "Un demonio para ajustar la temperatura de la pantalla por la noche"
 
 #: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:3
 #: ../data/xnl-preferences.ui.h:3
