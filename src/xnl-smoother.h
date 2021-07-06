@@ -15,18 +15,22 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 /*************************************************************************/
 
-#ifndef __XNL_COMMON_H
-#define __XNL_COMMON_H
+#ifndef __XNL_SMOOTHER_H__
+#define __XNL_SMOOTHER_H__
 
-#define XNL_DAEMON_DBUS_NAME      "org.xings.NightLight"
-#define XNL_PREFERENCES_DBUS_NAME "org.xings.NightLightPreferences"
+#include <gio/gio.h>
 
-#define XNL_SETTINGS_SCHEMA "org.xings.night-light"
+G_BEGIN_DECLS
 
-#define XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED     "night-light-enabled"
-#define XNL_SETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE "night-light-temperature"
+#define XNL_TYPE_SMOOTHER (xnl_smoother_get_type ())
+G_DECLARE_FINAL_TYPE (XnlSmoother, xnl_smoother, XNL, SMOOTHER, GObject)
 
-#define XNL_COLOR_TEMPERATURE_DEFAULT 6500
+XnlSmoother *xnl_smoother_new                  (void);
 
-#endif /* __XNL_COMMON_H */
+void         xnl_smoother_set_temperature_sync (XnlSmoother *smoother, gdouble temperature);
+void         xnl_smoother_set_temperature      (XnlSmoother *smoother, gdouble temperature);
+gdouble      xnl_smoother_get_temperature      (XnlSmoother *smoother);
 
+G_END_DECLS
+
+#endif

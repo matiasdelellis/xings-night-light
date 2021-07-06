@@ -14,6 +14,8 @@ xings_night_light_daemon_SOURCES =			\
 	xnl-daemon.c					\
 	xnl-daemon.h					\
 	xnl-common.h					\
+	xnl-smoother.c					\
+	xnl-smoother.h					\
 	xnl-debug.c					\
 	xnl-debug.h					\
 	xsct.c						\

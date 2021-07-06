@@ -22,16 +22,16 @@
 #include <glib.h>
 #include <gio/gio.h>
 
-#include "xsct.h"
+#include "xnl-smoother.h"
 #include "xnl-common.h"
 
 #include "xnl-daemon.h"
-
 
 struct _XnlDaemon
 {
 	GObject			 parent;
 
+	XnlSmoother		*smoother;
 	GSettings		*settings;
 };
 
@@ -49,11 +49,8 @@ xnl_daemon_apply_settings (XnlDaemon *daemon)
 	enabled = g_settings_get_boolean (daemon->settings, XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED);
 	night_temp = g_settings_get_uint (daemon->settings, XNL_SETTINGS_KEY_NIGHT_LIGHT_TEMPERATURE);
 
-	if (enabled) {
-		x11_set_display_temperature (night_temp);
-	} else {
-		x11_reset_display_temperature ();
-	}
+	xnl_smoother_set_temperature (daemon->smoother,
+	                              enabled ? night_temp : XNL_COLOR_TEMPERATURE_DEFAULT);
 }
 
 /**
@@ -80,9 +77,11 @@ xnl_daemon_finalize (GObject *object)
 
 	daemon = XNL_DAEMON (object);
 
-	g_object_unref (daemon->settings);
+	xnl_smoother_set_temperature_sync (daemon->smoother, XNL_COLOR_TEMPERATURE_DEFAULT);
 
-	x11_reset_display_temperature ();
+	g_object_unref (daemon->smoother);
+
+	g_object_unref (daemon->settings);
 
 	G_OBJECT_CLASS (xnl_daemon_parent_class)->finalize (object);
 }
@@ -94,6 +93,8 @@ xnl_daemon_finalize (GObject *object)
 static void
 xnl_daemon_init (XnlDaemon *daemon)
 {
+	daemon->smoother = xnl_smoother_new ();
+
 	daemon->settings = g_settings_new (XNL_SETTINGS_SCHEMA);
 	g_signal_connect (daemon->settings, "changed",
 	                  G_CALLBACK (xnl_settings_changed_cb), daemon);
