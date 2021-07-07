@@ -1,2 +1,5 @@
 SUBDIRS = data po src
-CLEANFILES = *~
+CLEANFILES = README *~
+
+README:
+	cp -f README.md README
