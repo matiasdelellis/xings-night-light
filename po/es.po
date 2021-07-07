@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xings Night Color Daemon\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-01 20:29-0300\n"
-"PO-Revision-Date: 2021-07-01 20:25-0300\n"
+"POT-Creation-Date: 2021-07-07 20:28-0300\n"
+"PO-Revision-Date: 2021-07-07 19:57-0300\n"
 "Last-Translator: \n"
 "Language-Team: Matias De lellis\n"
-"Language: es_AR\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/xings-night-light-daemon.c:72
-#: ../src/xings-night-light-preferences.c:70
 #: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:1
 #: ../data/xings-night-light-daemon.desktop.in.h:1
 msgid "Xings Night Light Daemon"
@@ -29,18 +29,22 @@ msgstr "Servicio de luz nocturna de Xings"
 msgid "Night light preferences"
 msgstr "Preferencias de la luz nocturna"
 
+#: ../src/xings-night-light-preferences.c:70
+msgid "Xings Night Light Preferences"
+msgstr "Preferencias de luz nocturna de Xings"
+
 #. TRANSLATORS: turn on all debugging
 #: ../src/xnl-debug.c:113
 msgid "Show debugging information for all files"
-msgstr ""
+msgstr "Mostrar información de depuración para todos los archivos"
 
 #: ../src/xnl-debug.c:171
 msgid "Debugging Options"
-msgstr ""
+msgstr "Opciones de depuración"
 
 #: ../src/xnl-debug.c:171
 msgid "Show debugging options"
-msgstr ""
+msgstr "Mostrar opciones de depuración"
 
 #: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:2
 #: ../data/xings-night-light-daemon.desktop.in.h:2
@@ -48,7 +52,6 @@ msgid "A daemon to adjust the screen temperature at night"
 msgstr "Un demonio para ajustar la temperatura de la pantalla por la noche"
 
 #: ../data/appdata/org.xings.NightLight.metainfo.xml.in.h:3
-#: ../data/xnl-preferences.ui.h:3
 msgid ""
 "Night light makes the screen color warmer. This can help to prevent eye "
 "strain and sleeplessness."
@@ -72,6 +75,16 @@ msgid ""
 msgstr ""
 "El servicio de luz nocturna no funciona. Su administrador de sesiones debe "
 "ejecutarlo al inicio."
+
+#: ../data/xnl-preferences.ui.h:3
+msgid ""
+"The screen emits blue light, which can cause problems such as eye strain or "
+"sleeplessness. The night light makes the screen color warmer and helps "
+"prevent these effects."
+msgstr ""
+"La pantalla emite luz azul, que puede causar problemas como fatiga visual o "
+"insomnio. La luz nocturna hace que el color de la pantalla sea más cálido y "
+"ayuda a prevenir estos efectos."
 
 #: ../data/xnl-preferences.ui.h:4
 msgid "Enabled"

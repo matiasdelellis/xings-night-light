@@ -25,8 +25,6 @@ GETTEXT_PACKAGE=xings-night-light
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 
-XDT_I18N([es_AR])
-
 # Enable gsettings schema macros
 GLIB_GSETTINGS
 

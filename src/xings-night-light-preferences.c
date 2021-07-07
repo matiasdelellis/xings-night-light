@@ -67,7 +67,7 @@ main (int    argc,
 	/* Debug options */
 
 	context = g_option_context_new (NULL);
-	g_option_context_set_summary (context, _("Xings Night Light Daemon"));
+	g_option_context_set_summary (context, _("Xings Night Light Preferences"));
 	g_option_context_add_group (context, xnl_debug_get_option_group ());
 	g_option_context_parse (context, &argc, &argv, NULL);
 	g_option_context_free (context);
