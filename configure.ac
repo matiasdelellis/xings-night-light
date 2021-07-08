@@ -28,7 +28,19 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 # Enable gsettings schema macros
 GLIB_GSETTINGS
 
-#
+dnl ---------------------------------------------------------------------------
+dnl - Is docbook2man available?
+dnl ---------------------------------------------------------------------------
+AC_PATH_PROG(DOCBOOK2MAN, docbook2man, no)
+if test "$DOCBOOK2MAN" = "no" ; then
+	AC_MSG_WARN([docbook2man not found, will not be able to build man documentation])
+fi
+AM_CONDITIONAL(HAVE_DOCBOOK2MAN, [test "$DOCBOOK2MAN" != "no"])
+
+
+dnl ---------------------------------------------------------------------------
+dnl - Makefiles, etc.
+dnl --------------------------------------------------------------------------
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
 	Makefile
@@ -36,6 +48,7 @@ AC_CONFIG_FILES([
 	data/appdata/Makefile
 	data/icons/Makefile
 	data/icons/scalable/Makefile
+	man/Makefile
 	po/Makefile.in
 	src/Makefile
 ])

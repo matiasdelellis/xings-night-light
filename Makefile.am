@@ -1,4 +1,4 @@
-SUBDIRS = data po src
+SUBDIRS = data man po src
 CLEANFILES = README *~
 
 README:
