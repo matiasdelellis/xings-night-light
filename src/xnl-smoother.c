@@ -100,7 +100,7 @@ xnl_smoother_set_temperature_internal (XnlSmoother *smoother, gdouble temperatur
 
 	smoother->cached_temperature = temperature;
 
-	x11_set_display_temperature ((guint) temperature);
+	x11_set_display_temperature (temperature);
 }
 
 void
@@ -110,7 +110,7 @@ xnl_smoother_set_temperature_sync (XnlSmoother *smoother, gdouble temperature)
 
 	smoother->cached_temperature = temperature;
 
-	x11_set_display_temperature ((guint) temperature);
+	x11_set_display_temperature (temperature);
 }
 
 

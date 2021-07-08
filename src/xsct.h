@@ -1,22 +1,18 @@
 /*
- * xsct - X11 set color temperature
+ * Copyright (c) 2015 Ted Unangst <tedu@openbsd.org>
+ * Copyright (c) 2015-2020 Fabian Foerg
  *
- * Original code published by Ted Unangst:
- * http://www.tedunangst.com/flak/post/sct-set-color-temperature
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
  *
- * Modified by Fabian Foerg in order to:
- * - compile on Ubuntu 14.04
- * - iterate over all screens of the default display and change the color
- *   temperature
- * - fix memleaks
- * - clean up code
- * - return EXIT_SUCCESS
- *
- * Public domain, do as you wish.
- *
- * Compile the code using the following command:
- * gcc -Wall -Wextra -Werror -pedantic -std=c99 -O2 -I /usr/X11R6/include xsct.c -o xsct -L /usr/X11R6/lib -lX11 -lXrandr -lm -s
- *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 #ifndef __XSCT_H
@@ -25,12 +21,6 @@
 #include <stdio.h>
 
 int
-x11_get_display_temperature();
-
-int
-x11_set_display_temperature(int temp);
-
-int
-x11_reset_display_temperature();
+x11_set_display_temperature (double temp);
 
 #endif /* __XSCT_H */
