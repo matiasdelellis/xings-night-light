@@ -38,15 +38,22 @@ xings_night_light_application_activate (GtkApplication *application,
 	XnlPreferencesPanel *panel;
 	GtkWidget *window;
 
-	window = gtk_application_window_new (application);
-	gtk_window_set_title (GTK_WINDOW (window), _("Night light preferences"));
-	gtk_window_set_icon_name (GTK_WINDOW (window), "xings-night-light");
-	gtk_window_set_default_size (GTK_WINDOW (window), 500, 300);
+	g_assert (GTK_IS_APPLICATION (application));
 
-	panel = xnl_preferences_panel_new ();
-	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (panel));
+	window = GTK_WIDGET (gtk_application_get_active_window (GTK_APPLICATION (application)));
+	if (window == NULL) {
+		window = gtk_application_window_new (application);
+		gtk_window_set_title (GTK_WINDOW (window), _("Night light preferences"));
+		gtk_window_set_icon_name (GTK_WINDOW (window), "xings-night-light");
+		gtk_window_set_default_size (GTK_WINDOW (window), 500, 300);
 
-	gtk_widget_show_all (window);
+		panel = xnl_preferences_panel_new ();
+		gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (panel));
+
+		gtk_widget_show_all (GTK_WIDGET (window));
+	}
+
+	gtk_window_present (GTK_WINDOW (window));
 }
 
 int
