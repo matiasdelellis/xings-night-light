@@ -10,11 +10,42 @@ AC_PROG_LIBTOOL
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
+dnl ---------------------------------------------------------------------------
+dnl - Dependencies
+dnl ---------------------------------------------------------------------------
+
 PKG_CHECK_MODULES(X11, [x11])
 PKG_CHECK_MODULES(XRAND, [xrandr])
 PKG_CHECK_MODULES(GLIB, [glib-2.0])
 PKG_CHECK_MODULES(GIO, [gio-2.0])
 PKG_CHECK_MODULES(GTK, [gtk+-3.0])
+
+dnl ---------------------------------------------------------------------------
+dnl - Optional application indicator
+dnl ---------------------------------------------------------------------------
+
+STATUSNOTIFIER_PKG=statusnotifier
+STATUSNOTIFIER_REQUIRED=1.0.0
+AC_ARG_ENABLE([statusnotifier],
+        AS_HELP_STRING([--enable-statusnotifier[=@<:@no/auto/yes@:>@]],[Build support for status notifier]),
+                       [enable_statusnotifier=$enableval],
+                       [enable_statusnotifier="auto"])
+
+if test "x$enable_statusnotifier" = "xauto"; then
+        PKG_CHECK_EXISTS($STATUSNOTIFIER_PKG >= $STATUSNOTIFIER_REQUIRED,
+                         [enable_statusnotifier="yes"],
+                         [enable_statusnotifier="no"])
+fi
+
+if test "x$enable_statusnotifier" = "xyes"; then
+        PKG_CHECK_MODULES(STATUSNOTIFIER,
+                          [$STATUSNOTIFIER_PKG >= $STATUSNOTIFIER_REQUIRED],
+                          [AC_DEFINE(HAVE_STATUSNOTIFIER, 1, [Have StatusNotifier])])
+fi
+
+AM_CONDITIONAL(HAVE_STATUSNOTIFIER, test "x$enable_statusnotifier" = "xyes")
+AC_SUBST(STATUSNOTIFIER_CFLAGS)
+AC_SUBST(STATUSNOTIFIER_LIBS)
 
 # Translation
 
@@ -53,3 +84,18 @@ AC_CONFIG_FILES([
 	src/Makefile
 ])
 AC_OUTPUT
+
+dnl ---------------------------------------------------------------------------
+dnl - Output resume
+dnl --------------------------------------------------------------------------
+echo "
+          xings-night-light v$VERSION
+        =============================
+
+        prefix:                    ${prefix}
+        compiler:                  ${CC}
+        cflags:                    ${CFLAGS}
+        cppflags:                  ${CPPFLAGS}
+
+        Status Notifier:           ${enable_statusnotifier}
+"

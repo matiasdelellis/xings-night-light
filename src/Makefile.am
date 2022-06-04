@@ -25,13 +25,16 @@ xings_night_light_daemon_CFLAGS =			\
 	$(X11_CFLAGS)					\
 	$(XRAND_CFLAGS)					\
 	$(GIO_CFLAGS)					\
-	$(GLIB_CFLAGS)
+	$(GLIB_CFLAGS)					\
+	$(STATUSNOTIFIER_CFLAGS)
 
 xings_night_light_daemon_LDADD =			\
 	$(X11_LIBS)					\
 	$(XRAND_LIBS)					\
 	$(GIO_LIBS)					\
-	$(GLIB_LIBS) -lm
+	$(GLIB_LIBS)					\
+	$(STATUSNOTIFIER_LIBS)				\
+	-lm
 
 xings_night_light_preferences_SOURCES =			\
 	xings-night-light-preferences.c			\

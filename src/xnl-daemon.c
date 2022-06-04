@@ -21,9 +21,14 @@
 
 #include <glib.h>
 #include <gio/gio.h>
+#include <glib/gi18n.h>
 
 #include "xnl-smoother.h"
 #include "xnl-common.h"
+
+#ifdef HAVE_STATUSNOTIFIER
+#include <statusnotifier.h>
+#endif
 
 #include "xnl-daemon.h"
 
@@ -33,9 +38,48 @@ struct _XnlDaemon
 
 	XnlSmoother		*smoother;
 	GSettings		*settings;
+
+#ifdef HAVE_STATUSNOTIFIER
+	StatusNotifierItem	*status_notifier;
+#endif
 };
 
 G_DEFINE_TYPE (XnlDaemon, xnl_daemon, G_TYPE_OBJECT)
+
+
+#ifdef HAVE_STATUSNOTIFIER
+static void
+xnl_daemon_show_applet (XnlDaemon *daemon,
+                        gboolean   active)
+{
+	g_object_set (daemon->status_notifier,
+	              "title", active ? _("Turn off night light") : _("Turn on night light"),
+	              NULL);
+	g_object_set (daemon->status_notifier,
+	              "tooltip-title", active ? _("Turn off night light") : _("Turn on night light"),
+	              NULL);
+	g_object_set (daemon->status_notifier,
+	              "main-icon-name", active ? "night-light-symbolic" : "night-light-disabled-symbolic",
+	              NULL);
+
+	g_object_set (daemon->status_notifier,
+	              "status", STATUS_NOTIFIER_STATUS_ACTIVE, NULL);
+}
+
+static void
+xnl_daemon_hide_applet (XnlDaemon *daemon)
+{
+	g_object_set (daemon->status_notifier,
+	              "status", STATUS_NOTIFIER_STATUS_PASSIVE,
+	              NULL);
+}
+static void
+xnl_daemon_applet_icon_activate_cb (XnlDaemon *daemon)
+{
+	g_settings_set_boolean (daemon->settings, XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED,
+		!g_settings_get_boolean (daemon->settings, XNL_SETTINGS_KEY_NIGHT_LIGHT_ENABLED));
+}
+#endif
 
 /**
  * xnl_daemon_apply_settings
@@ -51,6 +95,10 @@ xnl_daemon_apply_settings (XnlDaemon *daemon)
 
 	xnl_smoother_set_temperature (daemon->smoother,
 	                              enabled ? night_temp : XNL_COLOR_TEMPERATURE_DEFAULT);
+
+#ifdef HAVE_STATUSNOTIFIER
+	xnl_daemon_show_applet (daemon, enabled);
+#endif
 }
 
 /**
@@ -83,6 +131,10 @@ xnl_daemon_finalize (GObject *object)
 
 	g_object_unref (daemon->settings);
 
+#ifdef HAVE_STATUSNOTIFIER
+	g_clear_object (&daemon->status_notifier);
+#endif
+
 	G_OBJECT_CLASS (xnl_daemon_parent_class)->finalize (object);
 }
 
@@ -94,6 +146,22 @@ static void
 xnl_daemon_init (XnlDaemon *daemon)
 {
 	daemon->smoother = xnl_smoother_new ();
+
+#ifdef HAVE_STATUSNOTIFIER
+	daemon->status_notifier = g_object_new (STATUS_NOTIFIER_TYPE_ITEM,
+	                                        "id",           "xings-night-light",
+	                                        "category",     STATUS_NOTIFIER_CATEGORY_SYSTEM_SERVICES,
+	                                        "status",       STATUS_NOTIFIER_STATUS_PASSIVE,
+	                                        "title",        _("Turn on night light"),
+	                                        "item-is-menu", FALSE,
+	                                        NULL);
+
+	g_signal_connect_swapped (daemon->status_notifier, "activate",
+	                          G_CALLBACK(xnl_daemon_applet_icon_activate_cb),
+	                          daemon);
+
+	status_notifier_item_register (daemon->status_notifier);
+#endif
 
 	daemon->settings = g_settings_new (XNL_SETTINGS_SCHEMA);
 	g_signal_connect (daemon->settings, "changed",
