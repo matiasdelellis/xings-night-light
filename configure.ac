@@ -21,6 +21,32 @@ PKG_CHECK_MODULES(GIO, [gio-2.0])
 PKG_CHECK_MODULES(GTK, [gtk+-3.0])
 
 dnl ---------------------------------------------------------------------------
+dnl - Optional notification
+dnl ---------------------------------------------------------------------------
+LIBNOTIFY_PKG=libnotify
+LIBNOTIFY_REQUIRED=0.7.0
+AC_ARG_ENABLE([notify],
+        AS_HELP_STRING([--enable-notify[=@<:@no/auto/yes@:>@]],[Build support for notifications]),
+                       [enable_notify=$enableval],
+                       [enable_notify="auto"])
+
+if test "x$enable_notify" = "xauto"; then
+        PKG_CHECK_EXISTS($LIBNOTIFY_PKG >= $LIBNOTIFY_REQUIRED,
+                         [enable_notify="yes"],
+                         [enable_notify="no"])
+fi
+
+if test "x$enable_notify" = "xyes"; then
+        PKG_CHECK_MODULES(LIBNOTIFY,
+                          [$LIBNOTIFY_PKG >= $LIBNOTIFY_REQUIRED],
+                          [AC_DEFINE(HAVE_LIBNOTIFY, 1, [Have libnotify])])
+fi
+
+AM_CONDITIONAL(HAVE_LIBNOTIFY, test "x$enable_notify" = "xyes")
+AC_SUBST(LIBNOTIFY_CFLAGS)
+AC_SUBST(LIBNOTIFY_LIBS)
+
+dnl ---------------------------------------------------------------------------
 dnl - Optional application indicator
 dnl ---------------------------------------------------------------------------
 
@@ -97,5 +123,6 @@ echo "
         cflags:                    ${CFLAGS}
         cppflags:                  ${CPPFLAGS}
 
+        Status Notifications:      ${enable_notify}
         Status Notifier:           ${enable_statusnotifier}
 "

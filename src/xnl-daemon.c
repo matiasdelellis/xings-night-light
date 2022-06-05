@@ -1,5 +1,5 @@
 /*************************************************************************/
-/* Copyright (C) 2021 matias <mati86dl@gmail.com>                        */
+/* Copyright (C) 2021-2022 matias <mati86dl@gmail.com>                   */
 /*                                                                       */
 /* This program is free software: you can redistribute it and/or modify  */
 /* it under the terms of the GNU General Public License as published by  */
@@ -26,6 +26,10 @@
 #include "xnl-smoother.h"
 #include "xnl-common.h"
 
+#ifdef HAVE_LIBNOTIFY
+#include <libnotify/notify.h>
+#endif
+
 #ifdef HAVE_STATUSNOTIFIER
 #include <statusnotifier.h>
 #endif
@@ -39,6 +43,9 @@ struct _XnlDaemon
 	XnlSmoother		*smoother;
 	GSettings		*settings;
 
+#ifdef HAVE_LIBNOTIFY
+	NotifyNotification	*notify;
+#endif
 #ifdef HAVE_STATUSNOTIFIER
 	StatusNotifierItem	*status_notifier;
 #endif
@@ -46,6 +53,52 @@ struct _XnlDaemon
 
 G_DEFINE_TYPE (XnlDaemon, xnl_daemon, G_TYPE_OBJECT)
 
+
+#ifdef HAVE_LIBNOTIFY
+static void
+xnl_daemon_notification_closed_cb (NotifyNotification *notify,
+                                   XnlDaemon          *daemon)
+{
+	g_object_unref (G_OBJECT(notify));
+
+	if (daemon->notify == notify) {
+		daemon->notify = NULL;
+	}
+}
+
+static void
+xnl_daemon_show_notification (XnlDaemon *daemon,
+                              gboolean   active,
+                              guint      night_temp)
+{
+	GError *error = NULL;
+	gchar *message = NULL;
+
+	if (active) {
+		message = g_strdup_printf (_("Night light activated at a temperature of %i K"), night_temp);
+		if (daemon->notify == NULL) {
+			daemon->notify = notify_notification_new (_("Night light"), message, "night-light-symbolic");
+			g_signal_connect (daemon->notify, "closed", G_CALLBACK (xnl_daemon_notification_closed_cb), daemon);
+		} else {
+			notify_notification_update (daemon->notify, _("Night light"), message, "night-light-symbolic");
+		}
+		g_free (message);
+	}
+	else {
+		if (daemon->notify == NULL) {
+			daemon->notify = notify_notification_new (_("Night light"), _("Night light off"), "night-light-disabled-symbolic");
+			g_signal_connect (daemon->notify, "closed", G_CALLBACK (xnl_daemon_notification_closed_cb), daemon);
+		} else {
+			notify_notification_update (daemon->notify, _("Night light"), _("Night light off"), "night-light-disabled-symbolic");
+		}
+	}
+
+	if (!notify_notification_show (daemon->notify, &error)) {
+		g_warning("Unable to show notification: %s", error->message);
+		g_error_free (error);
+	}
+}
+#endif
 
 #ifdef HAVE_STATUSNOTIFIER
 static void
@@ -96,6 +149,10 @@ xnl_daemon_apply_settings (XnlDaemon *daemon)
 	xnl_smoother_set_temperature (daemon->smoother,
 	                              enabled ? night_temp : XNL_COLOR_TEMPERATURE_DEFAULT);
 
+#ifdef HAVE_LIBNOTIFY
+	xnl_daemon_show_notification (daemon, enabled, night_temp);
+#endif
+
 #ifdef HAVE_STATUSNOTIFIER
 	xnl_daemon_show_applet (daemon, enabled);
 #endif
@@ -131,6 +188,10 @@ xnl_daemon_finalize (GObject *object)
 
 	g_object_unref (daemon->settings);
 
+#ifdef HAVE_LIBNOTIFY
+	notify_uninit();
+#endif
+
 #ifdef HAVE_STATUSNOTIFIER
 	g_clear_object (&daemon->status_notifier);
 #endif
@@ -146,6 +207,10 @@ static void
 xnl_daemon_init (XnlDaemon *daemon)
 {
 	daemon->smoother = xnl_smoother_new ();
+
+#ifdef HAVE_LIBNOTIFY
+	notify_init ("xings-night-light");
+#endif
 
 #ifdef HAVE_STATUSNOTIFIER
 	daemon->status_notifier = g_object_new (STATUS_NOTIFIER_TYPE_ITEM,

@@ -26,6 +26,7 @@ xings_night_light_daemon_CFLAGS =			\
 	$(XRAND_CFLAGS)					\
 	$(GIO_CFLAGS)					\
 	$(GLIB_CFLAGS)					\
+	$(LIBNOTIFY_CFLAGS)				\
 	$(STATUSNOTIFIER_CFLAGS)
 
 xings_night_light_daemon_LDADD =			\
@@ -33,6 +34,7 @@ xings_night_light_daemon_LDADD =			\
 	$(XRAND_LIBS)					\
 	$(GIO_LIBS)					\
 	$(GLIB_LIBS)					\
+	$(LIBNOTIFY_LIBS)				\
 	$(STATUSNOTIFIER_LIBS)				\
 	-lm
 
