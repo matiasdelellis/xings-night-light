@@ -1,5 +1,6 @@
 src/xings-night-light-daemon.c
 src/xings-night-light-preferences.c
+src/xnl-daemon.c
 src/xnl-debug.c
 data/appdata/org.xings.NightLight.metainfo.xml.in
 data/xings-night-light-daemon.desktop.in
